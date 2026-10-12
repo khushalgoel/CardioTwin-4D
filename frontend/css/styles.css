@@ -1,0 +1,2099 @@
+/* ==============================================================================
+   CARDIOTWIN-4D: ULTRA-PREMIUM CATH-LAB WORKSTATION STYLESHEET
+   Aesthetics: Apple VisionOS Glassmorphism x Philips Azurion Cath-Lab x Cyber-Medical HUD
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+/* ==============================================================================
+   1. DESIGN SYSTEM TOKENS & ATOMIC VARIABLES
+   ============================================================================== */
+:root {
+  /* Deep Space & Glass Backgrounds */
+  --bg-deep: #020614;
+  --bg-dark: #050b1a;
+  --bg-surface: #081024;
+  --bg-panel: rgba(11, 20, 42, 0.78);
+  --bg-panel-hover: rgba(16, 28, 58, 0.88);
+  --bg-glass-card: rgba(14, 25, 52, 0.65);
+  --bg-overlay: rgba(2, 6, 20, 0.92);
+
+  /* Hairline & Specular Borders */
+  --border-subtle: rgba(56, 189, 248, 0.16);
+  --border-specular: rgba(56, 189, 248, 0.38);
+  --border-glow: rgba(56, 189, 248, 0.65);
+  --border-gold: rgba(245, 158, 11, 0.5);
+  --border-critical: rgba(244, 63, 94, 0.55);
+
+  /* Curated Clinical Neon Bio-Accents */
+  --cyan-surgical: #00f2fe;
+  --cyan-bright: #38bdf8;
+  --cyan-glow: rgba(56, 189, 248, 0.35);
+  --emerald-bio: #10b981;
+  --emerald-glow: rgba(16, 185, 129, 0.35);
+  --amber-warn: #f59e0b;
+  --amber-glow: rgba(245, 158, 11, 0.35);
+  --crimson-crit: #ff2a55;
+  --crimson-glow: rgba(255, 42, 85, 0.4);
+  --purple-cf: #8b5cf6;
+  --purple-glow: rgba(139, 92, 246, 0.4);
+  --blue-ischemia: #3b82f6;
+
+  /* Typography */
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --text-accent: #38bdf8;
+
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Outfit', var(--font-sans);
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Geometry & Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-pill: 9999px;
+
+  /* Shadows & Depth */
+  --shadow-hud: 0 16px 40px -12px rgba(0, 0, 0, 0.8), 0 0 1px 1px var(--border-subtle);
+  --shadow-specular: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), 0 20px 50px -10px rgba(0, 0, 0, 0.85);
+  --shadow-glow-cyan: 0 0 25px rgba(56, 189, 248, 0.35);
+  --shadow-glow-crit: 0 0 30px rgba(255, 42, 85, 0.45);
+  --shadow-glow-purple: 0 0 25px rgba(139, 92, 246, 0.4);
+
+  /* Easing Physics */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==============================================================================
+   2. GLOBAL RESET & AMBIENT ATMOSPHERE
+   ============================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  background-color: var(--bg-deep);
+  background-image:
+    radial-gradient(circle at 50% 25%, rgba(14, 165, 233, 0.08) 0%, transparent 65%),
+    linear-gradient(rgba(56, 189, 248, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.025) 1px, transparent 1px);
+  background-size: 100% 100%, 36px 36px, 36px 36px;
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+/* Ambient Floating Background Orbs for Cinematic Depth */
+body::before {
+  content: '';
+  position: fixed;
+  top: -10vw;
+  left: -10vw;
+  width: 45vw;
+  height: 45vw;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.14) 0%, rgba(56, 189, 248, 0.03) 50%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: ambientFloatLeft 22s ease-in-out infinite alternate;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -15vw;
+  right: -10vw;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(255, 42, 85, 0.09) 0%, rgba(139, 92, 246, 0.04) 50%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: ambientFloatRight 26s ease-in-out infinite alternate;
+}
+
+@keyframes ambientFloatLeft {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(5vw, 6vh) scale(1.1);
+  }
+
+  100% {
+    transform: translate(-3vw, 10vh) scale(0.95);
+  }
+}
+
+@keyframes ambientFloatRight {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(-6vw, -5vh) scale(1.15);
+  }
+
+  100% {
+    transform: translate(4vw, -8vh) scale(0.9);
+  }
+}
+
+/* Telemetry Font Utilities */
+.mono {
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(4, 9, 22, 0.4);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.22);
+  border-radius: var(--radius-pill);
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+}
+
+/* ==============================================================================
+   3. CLINICAL SAFETY DISCLAIMER PERSISTENT BANNER
+   ============================================================================== */
+.disclaimer-strip {
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.16) 0%, rgba(244, 63, 94, 0.16) 100%);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.35);
+  padding: 5px 20px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #fef08a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  letter-spacing: 0.02em;
+  z-index: 100;
+  flex-shrink: 0;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.disclaimer-strip .badge-hackathon {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(245, 158, 11, 0.15));
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 10px;
+  font-weight: 800;
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.6);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ==============================================================================
+   4. WORKSTATION TOP BAR & TELEMETRY HUD
+   ============================================================================== */
+.workstation-header {
+  height: 56px;
+  background: rgba(7, 13, 30, 0.82);
+  backdrop-filter: blur(24px) saturate(190%);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  flex-shrink: 0;
+  z-index: 90;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.heart-pulsar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 42, 85, 0.25) 0%, rgba(255, 42, 85, 0.05) 70%);
+  border: 1px solid rgba(255, 42, 85, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(255, 42, 85, 0.35);
+  animation: heartbeatPulse 1.4s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+@keyframes heartbeatPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 12px rgba(255, 42, 85, 0.3);
+  }
+
+  14% {
+    transform: scale(1.18);
+    box-shadow: 0 0 24px rgba(255, 42, 85, 0.6);
+  }
+
+  28% {
+    transform: scale(1.04);
+    box-shadow: 0 0 16px rgba(255, 42, 85, 0.4);
+  }
+
+  42% {
+    transform: scale(1.22);
+    box-shadow: 0 0 28px rgba(255, 42, 85, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 12px rgba(255, 42, 85, 0.3);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 12px rgba(255, 42, 85, 0.3);
+  }
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
+}
+
+.brand-subtitle {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.header-ekg-pulsar {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  margin-left: 4px;
+}
+
+.ekg-line-path {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: ekgPathTrace 2.2s linear infinite;
+  filter: drop-shadow(0 0 6px var(--cyan-bright));
+}
+
+@keyframes ekgPathTrace {
+  0% {
+    stroke-dashoffset: 120;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -120;
+  }
+}
+
+/* Telemetry Status Pills */
+.telemetry-status-pills {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-pill {
+  background: rgba(13, 22, 46, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.25s var(--ease-spring);
+}
+
+.status-pill:hover {
+  border-color: var(--border-specular);
+  background: rgba(18, 30, 62, 0.85);
+  transform: translateY(-1px);
+}
+
+.status-indicator-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--emerald-bio);
+  box-shadow: 0 0 10px var(--emerald-bio);
+  position: relative;
+}
+
+.status-indicator-dot::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1px solid var(--emerald-bio);
+  opacity: 0.6;
+  animation: pulseBeacon 2s ease-out infinite;
+}
+
+@keyframes pulseBeacon {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Header Actions & Persona Toggle */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.persona-toggle-container {
+  display: flex;
+  background: rgba(10, 17, 36, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 3px;
+  gap: 2px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.persona-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.25s var(--ease-spring);
+  position: relative;
+  overflow: hidden;
+}
+
+.persona-btn:hover {
+  color: var(--text-main);
+}
+
+.persona-btn.active {
+  background: linear-gradient(135deg, var(--cyan-bright) 0%, #0284c7 100%);
+  color: #020614;
+  font-weight: 700;
+  box-shadow: 0 2px 12px rgba(56, 189, 248, 0.45);
+}
+
+.btn-header-action {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, rgba(14, 165, 233, 0.05) 100%);
+  border: 1px solid var(--border-specular);
+  color: var(--cyan-bright);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 7px 15px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.25s var(--ease-spring);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-header-action::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transform: rotate(25deg) translateY(-100%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.btn-header-action:hover::after {
+  transform: rotate(25deg) translateY(100%);
+}
+
+.btn-header-action:hover {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.28) 0%, rgba(14, 165, 233, 0.15) 100%);
+  border-color: var(--cyan-bright);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-header-action:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+/* ==============================================================================
+   5. WORKSTATION MAIN GRID (3-COLUMN CATH-LAB COCKPIT)
+   ============================================================================== */
+.workstation-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 310px 1fr 340px;
+  grid-template-rows: 1fr 180px;
+  gap: 12px;
+  padding: 12px 16px 14px 16px;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}
+
+/* Universal Frosted Glass Panels */
+.glass-panel {
+  background: var(--bg-panel);
+  backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-specular);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(56, 189, 248, 0.28);
+}
+
+.panel-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(7, 13, 30, 0.6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-accent);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* ==============================================================================
+   6. LEFT DOCK: PATIENT COHORT SELECTOR & MULTI-SYSTEM CONTROLS
+   ============================================================================== */
+.left-dock {
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+}
+
+.cohort-selector-section {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(6, 12, 28, 0.5);
+}
+
+.cohort-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 7px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.archetype-select {
+  width: 100%;
+  background: rgba(11, 20, 42, 0.95);
+  border: 1px solid var(--border-specular);
+  color: var(--text-main);
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s var(--ease-spring);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.archetype-select:hover {
+  border-color: var(--cyan-bright);
+}
+
+.archetype-select:focus {
+  border-color: var(--cyan-bright);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+}
+
+.patient-info-card {
+  margin-top: 8px;
+  background: rgba(14, 25, 52, 0.65);
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  border-radius: var(--radius-sm);
+  padding: 9px 11px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--text-muted);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.patient-info-card strong {
+  color: var(--text-main);
+}
+
+.controls-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.control-category-header {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--cyan-bright);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+  padding-bottom: 4px;
+}
+
+/* Interactive Sliders */
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.slider-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slider-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.slider-val-badge {
+  background: rgba(10, 18, 38, 0.85);
+  border: 1px solid var(--border-subtle);
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cyan-bright);
+  transition: all 0.2s ease;
+}
+
+.slider-val-badge.flagged {
+  border-color: var(--crimson-crit);
+  color: var(--crimson-crit);
+  background: rgba(255, 42, 85, 0.15);
+  box-shadow: 0 0 10px rgba(255, 42, 85, 0.35);
+  animation: flaggedPillPulse 2s infinite ease-in-out;
+}
+
+@keyframes flaggedPillPulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 14px rgba(255, 42, 85, 0.6);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.custom-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-pill);
+  outline: none;
+  transition: background 0.2s ease;
+}
+
+.custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--cyan-bright);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-spring);
+}
+
+.custom-range::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.95);
+}
+
+/* Clinical Toggles Grid */
+.toggles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.toggle-btn {
+  background: rgba(10, 18, 38, 0.75);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 0.2s var(--ease-spring);
+  position: relative;
+  overflow: hidden;
+}
+
+.toggle-btn:hover {
+  background: rgba(18, 30, 62, 0.85);
+  border-color: var(--border-specular);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.toggle-btn.active {
+  background: linear-gradient(135deg, rgba(255, 42, 85, 0.25) 0%, rgba(255, 42, 85, 0.1) 100%);
+  border-color: var(--crimson-crit);
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(255, 42, 85, 0.35);
+}
+
+.toggle-indicator {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+.toggle-btn.active .toggle-indicator {
+  background: var(--crimson-crit);
+  box-shadow: 0 0 8px var(--crimson-crit);
+  animation: pulseIndicator 1.5s infinite;
+}
+
+@keyframes pulseIndicator {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.3);
+    opacity: 0.75;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ==============================================================================
+   7. CENTER STAGE: 4D DIGITAL TWIN WEBGL VIEWPORT
+   ============================================================================== */
+.center-stage {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  position: relative;
+  background: radial-gradient(circle at 50% 45%, #0e1a38 0%, #050b18 55%, #01040a 100%);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.85), 0 12px 40px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+}
+
+#canvas-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Futuristic HUD Corner Brackets */
+.hud-corner-bracket {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: rgba(56, 189, 248, 0.7);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 15;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+  transition: all 0.3s ease;
+}
+
+.hb-top-left {
+  top: 12px;
+  left: 12px;
+  border-width: 2px 0 0 2px;
+}
+
+.hb-top-right {
+  top: 12px;
+  right: 12px;
+  border-width: 2px 2px 0 0;
+}
+
+.hb-bottom-left {
+  bottom: 12px;
+  left: 12px;
+  border-width: 0 0 2px 2px;
+}
+
+.hb-bottom-right {
+  bottom: 12px;
+  right: 12px;
+  border-width: 0 2px 2px 0;
+}
+
+/* Top-Left Telemetry Cockpit HUD Overlay */
+.viewport-telemetry-hud {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(6, 12, 28, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border-specular);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 11px;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.hud-telemetry-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.hud-telemetry-label {
+  color: var(--text-muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.hud-telemetry-val {
+  color: var(--cyan-bright);
+  font-weight: 700;
+}
+
+.hud-telemetry-val.crit {
+  color: var(--crimson-crit);
+  text-shadow: 0 0 10px rgba(255, 42, 85, 0.6);
+}
+
+/* Top-Right Camera & Layer Controls HUD */
+.viewport-controls-hud {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  z-index: 10;
+}
+
+.walkthrough-card {
+  position: absolute;
+  top: 110px;
+  right: 14px;
+  width: min(240px, calc(100% - 28px));
+  background: rgba(6, 12, 28, 0.8);
+  backdrop-filter: blur(18px) saturate(170%);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 8px 8px 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  z-index: 11;
+}
+
+.walkthrough-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan-bright);
+  padding: 2px 4px 8px;
+}
+
+.walkthrough-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--crimson-crit);
+  box-shadow: 0 0 10px rgba(255, 42, 85, 0.8);
+}
+
+.walkthrough-preview {
+  background: rgba(8, 16, 33, 0.75);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: var(--radius-md);
+  padding: 6px;
+}
+
+.video-placeholder {
+  height: 110px;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background:
+    linear-gradient(135deg, rgba(12, 20, 38, 0.85), rgba(7, 14, 28, 0.9)),
+    radial-gradient(circle at center, rgba(56, 189, 248, 0.18), transparent 55%);
+  border: 1px dashed rgba(56, 189, 248, 0.34);
+  color: var(--text-main);
+  text-align: center;
+}
+
+.play-button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.9), rgba(59, 130, 246, 0.8));
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+  font-size: 18px;
+  font-weight: 700;
+  color: #03121d;
+}
+
+.video-caption {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.view-pill-group {
+  display: flex;
+  background: rgba(6, 12, 28, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 3px;
+  gap: 2px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.view-pill-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-spring);
+}
+
+.view-pill-btn:hover {
+  color: var(--text-main);
+  background: rgba(56, 189, 248, 0.14);
+}
+
+.view-pill-btn.active {
+  background: linear-gradient(135deg, var(--cyan-bright) 0%, #0284c7 100%);
+  color: #020614;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(56, 189, 248, 0.45);
+}
+
+.layer-toggles-row {
+  display: flex;
+  gap: 6px;
+}
+
+.layer-btn {
+  background: rgba(6, 12, 28, 0.85);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-spring);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.layer-btn:hover {
+  border-color: var(--border-specular);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.layer-btn.active {
+  background: rgba(56, 189, 248, 0.22);
+  border-color: var(--cyan-bright);
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+}
+
+/* Bottom-Left 2D Cross-Sectional Artery Lumen Inspector */
+.lumen-inspector-hud {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: rgba(6, 12, 28, 0.84);
+  backdrop-filter: blur(22px) saturate(190%);
+  border: 1px solid var(--border-specular);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 10;
+  box-shadow: var(--shadow-specular);
+}
+
+.lumen-canvas-box {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(14, 25, 52, 0.8) 0%, rgba(4, 8, 18, 0.95) 100%);
+  border: 1px solid var(--border-specular);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8), 0 0 15px rgba(56, 189, 248, 0.15);
+}
+
+#lumen-cross-section-canvas {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.lumen-details-col {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.lumen-vessel-title {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--cyan-bright);
+  letter-spacing: 0.08em;
+}
+
+.lumen-stat-row {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  gap: 10px;
+  font-weight: 600;
+}
+
+/* Ultra-Premium Animated Deploy Virtual Stent Button */
+.btn-deploy-stent {
+  margin-top: 4px;
+  background: linear-gradient(135deg, #0284c7 0%, #38bdf8 50%, #6366f1 100%);
+  background-size: 200% 200%;
+  animation: stentGradientPulse 5s ease infinite alternate;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-spring);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 18px rgba(14, 165, 233, 0.45);
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes stentGradientPulse {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.btn-deploy-stent::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: rotate(25deg) translateY(-100%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.btn-deploy-stent:hover::after {
+  transform: rotate(25deg) translateY(100%);
+}
+
+.btn-deploy-stent:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 25px rgba(56, 189, 248, 0.65);
+}
+
+.btn-deploy-stent:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+/* 3D Floating Tracked Screen-Space Pins */
+.floating-vessel-pin {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  background: rgba(6, 12, 28, 0.92);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-specular);
+  border-radius: var(--radius-pill);
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 800;
+  pointer-events: none;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), 0 0 12px rgba(56, 189, 248, 0.25);
+  transition: opacity 0.2s ease;
+  z-index: 20;
+}
+
+.floating-vessel-pin::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--border-specular);
+}
+
+/* ==============================================================================
+   8. RIGHT DOCK: MULTI-VESSEL RISK MATRIX & SHAP ENGINE
+   ============================================================================== */
+.right-dock {
+  grid-column: 3 / 4;
+  grid-row: 1 / 3;
+}
+
+.cad-banner-section {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(6, 12, 28, 0.65);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cad-banner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cad-banner-title {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cad-risk-tier-badge {
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tier-critical {
+  background: rgba(255, 42, 85, 0.22);
+  color: #ff99aa;
+  border: 1px solid var(--crimson-crit);
+  box-shadow: 0 0 12px rgba(255, 42, 85, 0.4);
+}
+
+.tier-moderate {
+  background: rgba(245, 158, 11, 0.22);
+  color: #fef08a;
+  border: 1px solid var(--amber-warn);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
+}
+
+.tier-low {
+  background: rgba(16, 185, 129, 0.22);
+  color: #a7f3d0;
+  border: 1px solid var(--emerald-bio);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
+}
+
+.cad-gauge-widget {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 6px;
+  background: rgba(14, 25, 52, 0.65);
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.cad-radial-svg-box {
+  width: 84px;
+  height: 84px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cad-radial-svg {
+  filter: drop-shadow(0 0 10px rgba(255, 42, 85, 0.45));
+}
+
+.cad-gauge-bar {
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.4s ease;
+}
+
+.cad-gauge-center-icon {
+  position: absolute;
+  font-size: 22px;
+  animation: heartbeatPulse 1.4s infinite;
+  filter: drop-shadow(0 0 8px rgba(255, 42, 85, 0.6));
+}
+
+.cad-prob-display {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cad-prob-num {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 0 25px rgba(255, 42, 85, 0.45);
+}
+
+.cad-ci-text {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.cad-subtext-meta {
+  font-size: 9px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+
+/* Target Vessel Cards (LAD, LCX, RCA) */
+.vessels-cards-section {
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.vessel-card {
+  background: var(--bg-glass-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-spring);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+}
+
+.vessel-card:hover {
+  background: var(--bg-panel-hover);
+  border-color: var(--border-specular);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.vessel-card.active {
+  border-color: var(--cyan-bright);
+  background: rgba(18, 30, 62, 0.95);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.3), inset 0 0 15px rgba(56, 189, 248, 0.05);
+}
+
+.vessel-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vessel-card-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vessel-card-prob {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.vessel-card-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.vessel-territory-tag {
+  font-size: 9px;
+  color: var(--cyan-bright);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* SHAP Waterfall Breakdown Section */
+.shap-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 10px 14px;
+}
+
+.shap-tabs-row {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.shap-tab-btn {
+  flex: 1;
+  background: rgba(10, 18, 38, 0.7);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-spring);
+}
+
+.shap-tab-btn:hover {
+  color: var(--text-main);
+  background: rgba(18, 30, 62, 0.85);
+}
+
+.shap-tab-btn.active {
+  background: linear-gradient(135deg, var(--cyan-bright) 0%, #0284c7 100%);
+  color: #020614;
+  border-color: var(--cyan-bright);
+  box-shadow: 0 2px 10px rgba(56, 189, 248, 0.35);
+}
+
+.shap-scroll-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.shap-item-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: rgba(6, 12, 28, 0.5);
+  padding: 5px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(56, 189, 248, 0.08);
+  transition: background 0.2s ease;
+}
+
+.shap-item-row:hover {
+  background: rgba(14, 25, 52, 0.7);
+  border-color: rgba(56, 189, 248, 0.2);
+}
+
+.shap-item-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+}
+
+.shap-item-name {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.shap-item-impact {
+  font-weight: 800;
+}
+
+.shap-item-impact.risk-pos {
+  color: var(--crimson-crit);
+}
+
+.shap-item-impact.risk-neg {
+  color: var(--emerald-bio);
+}
+
+.shap-bar-track {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  position: relative;
+}
+
+.shap-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width 0.35s ease;
+}
+
+.shap-bar-fill.pos {
+  background: linear-gradient(90deg, #fb7185, var(--crimson-crit));
+  box-shadow: 0 0 8px rgba(255, 42, 85, 0.4);
+}
+
+.shap-bar-fill.neg {
+  background: linear-gradient(90deg, #34d399, var(--emerald-bio));
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+/* ==============================================================================
+   9. BOTTOM DOCK: PROCEDURAL ECG MONITOR & COUNTERFACTUAL TIME-MACHINE
+   ============================================================================== */
+.bottom-dock {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Left Half: Procedural 12-Lead ECG Oscilloscope */
+.ecg-module-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ecg-canvas-wrapper {
+  flex: 1;
+  position: relative;
+  background: #02070f;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  overflow: hidden;
+}
+
+/* Subtle CRT Scanline Mesh Effect on ECG Frame */
+.ecg-canvas-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.22) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+  background-size: 100% 3px, 4px 100%;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+#ecg-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ecg-overlay-telemetry {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font-size: 10px;
+  color: var(--emerald-bio);
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  pointer-events: none;
+  z-index: 5;
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
+.ecg-audio-toggle {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  background: rgba(6, 12, 28, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s var(--ease-spring);
+  z-index: 5;
+}
+
+.ecg-audio-toggle:hover {
+  border-color: var(--border-specular);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.ecg-audio-toggle.active {
+  color: var(--emerald-bio);
+  border-color: var(--emerald-bio);
+  background: rgba(16, 185, 129, 0.18);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
+}
+
+.soundwave-box {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+  margin-right: 2px;
+}
+
+.soundwave-bar {
+  width: 2px;
+  background: var(--emerald-bio);
+  border-radius: 1px;
+  animation: soundwaveBounce 0.8s ease-in-out infinite alternate;
+}
+
+.soundwave-bar:nth-child(1) {
+  height: 4px;
+  animation-delay: 0.1s;
+}
+
+.soundwave-bar:nth-child(2) {
+  height: 10px;
+  animation-delay: 0.3s;
+}
+
+.soundwave-bar:nth-child(3) {
+  height: 7px;
+  animation-delay: 0.2s;
+}
+
+.soundwave-bar:nth-child(4) {
+  height: 12px;
+  animation-delay: 0.4s;
+}
+
+@keyframes soundwaveBounce {
+  0% {
+    height: 3px;
+  }
+
+  100% {
+    height: 12px;
+  }
+}
+
+/* Right Half: Counterfactual Clinical Time-Machine */
+.counterfactual-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px 14px;
+  gap: 8px;
+}
+
+.time-machine-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time-machine-title {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--purple-cf);
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+}
+
+.timeline-scrubber-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.timeline-labels-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.timeline-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, var(--crimson-crit) 0%, var(--amber-warn) 50%, var(--emerald-bio) 100%);
+  border-radius: var(--radius-pill);
+  outline: none;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.timeline-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--purple-cf);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.85);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-spring);
+}
+
+.timeline-range::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+  box-shadow: 0 0 22px rgba(139, 92, 246, 1);
+}
+
+.counterfactual-results-box {
+  flex: 1;
+  background: rgba(6, 12, 28, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 10px;
+}
+
+.cf-delta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cf-delta-gain {
+  color: var(--emerald-bio);
+  font-weight: 800;
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+/* Aurora Holographic Compute Counterfactual Plan Button */
+.btn-compute-cf {
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 35%, #06b6d4 70%, #10b981 100%);
+  background-size: 300% 300%;
+  animation: auroraButtonGlow 6s ease infinite alternate;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-spring);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.45);
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes auroraButtonGlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.btn-compute-cf::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: rotate(25deg) translateY(-100%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.btn-compute-cf:hover::after {
+  transform: rotate(25deg) translateY(100%);
+}
+
+.btn-compute-cf:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 28px rgba(139, 92, 246, 0.7);
+}
+
+.btn-compute-cf:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+/* ==============================================================================
+   10. MODEL VALIDATION & ANTI-LEAKAGE AUDIT MODAL
+   ============================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(2, 5, 16, 0.88);
+  backdrop-filter: blur(24px) saturate(190%);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-overlay.open {
+  display: flex;
+  animation: modalFadeIn 0.3s var(--ease-smooth);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-dialog {
+  width: 920px;
+  max-width: 95vw;
+  max-height: 88vh;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-specular);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.95), 0 0 40px rgba(56, 189, 248, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalScaleUp 0.35s var(--ease-spring);
+}
+
+@keyframes modalScaleUp {
+  from {
+    transform: scale(0.94) translateY(10px);
+  }
+
+  to {
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-header {
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(6, 12, 28, 0.85);
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--cyan-bright);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-modal-close {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-modal-close:hover {
+  color: #ffffff;
+  background: rgba(255, 42, 85, 0.2);
+  border-color: var(--crimson-crit);
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  padding: 22px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.security-audit-cert {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(6, 182, 212, 0.18) 100%);
+  border: 1px solid var(--emerald-bio);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.security-audit-cert h4 {
+  color: var(--emerald-bio);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.security-audit-cert p {
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* Metrics Table */
+.metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.metrics-table th,
+.metrics-table td {
+  padding: 9px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.metrics-table th {
+  background: rgba(14, 25, 52, 0.85);
+  color: var(--cyan-bright);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: var(--font-display);
+}
+
+.metrics-table tr:hover td {
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.roc-canvas-container {
+  height: 220px;
+  background: #02070f;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  position: relative;
+  padding: 10px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+#roc-curves-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==============================================================================
+   11. DUAL-PERSONA ADAPTIVE OVERRIDES
+   ============================================================================== */
+body.patient-mode {
+  --cyan-bright: #38bdf8;
+  --bg-panel: rgba(12, 22, 45, 0.86);
+}
+
+body.patient-mode .vessel-card-title,
+body.patient-mode .panel-title,
+body.patient-mode .brand-title {
+  font-family: var(--font-sans);
+}
+
+body.patient-mode .technical-clinician-only {
+  display: none !important;
+}
+
+body.patient-mode .patient-story-only {
+  display: block !important;
+}
+
+.patient-story-only {
+  display: none;
+}
+
+/* ==============================================================================
+   12. 21ST.DEV & FRAMER MOTION VISUAL COMPONENT SUITE
+   ============================================================================== */
+/* 21st.dev Spotlight Glass Cards */
+.glass-panel::before,
+.vessel-card::before,
+.cad-banner-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(450px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(56, 189, 248, 0.12), transparent 75%);
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 1;
+}
+
+.glass-panel:hover::before,
+.vessel-card:hover::before,
+.cad-banner-section:hover::before {
+  opacity: 1;
+}
+
+/* 21st.dev Border Beam Animation on Center Stage */
+.center-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from 0deg, transparent 75%, var(--cyan-bright) 90%, var(--purple-cf) 98%, transparent 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: borderBeamRotate 8s linear infinite;
+  z-index: 12;
+  opacity: 0.85;
+}
+
+@keyframes borderBeamRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 21st.dev Floating Cyber Meteors Background */
+.meteors-background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.meteor-streak {
+  position: absolute;
+  width: 1px;
+  height: 42px;
+  background: linear-gradient(to bottom, rgba(56, 189, 248, 0.75), transparent);
+  transform: rotate(45deg);
+  opacity: 0;
+  animation: meteorFall 4s linear infinite;
+}
+
+@keyframes meteorFall {
+  0% {
+    transform: rotate(45deg) translateY(-80px);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  70% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: rotate(45deg) translateY(450px);
+    opacity: 0;
+  }
+}
+
+/* ICU Monitor Beep Synchronized Visual Flash */
+.heart-pulsar.beep-flash {
+  animation: none !important;
+  transform: scale(1.35) !important;
+  box-shadow: 0 0 32px rgba(255, 42, 85, 1), 0 0 50px rgba(56, 189, 248, 0.8) !important;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
