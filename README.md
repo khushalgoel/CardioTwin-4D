@@ -6,6 +6,8 @@ CardioTwin-4D is an educational prototype built for the IIT Mandi AI Multimodal 
 
 > **Research and education only.** This prototype is not clinically validated and is not a diagnostic tool. Its outputs, scenarios, and visual simulations must not be used to guide care or replace a qualified clinician.
 
+**Live demo:** [cardiotwin-4d.vercel.app](https://cardiotwin-4d.vercel.app)
+
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/API-FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![Three.js](https://img.shields.io/badge/Visualization-Three.js-black?logo=threedotjs&logoColor=white)](https://threejs.org/)
