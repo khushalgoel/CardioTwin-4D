@@ -108,6 +108,16 @@ python -m uvicorn app:app --app-dir backend --host 127.0.0.1 --port 8000
 
 Open [http://localhost:8000](http://localhost:8000). Interactive API documentation is available at [http://localhost:8000/docs](http://localhost:8000/docs).
 
+### Deploy to Vercel
+
+The repository includes a root-level FastAPI entry point and a root `requirements.txt` that reuses the backend dependencies. To deploy:
+
+1. Import `khushalgoel/CardioTwin-4D` from the [Vercel dashboard](https://vercel.com/new).
+2. Keep the project root directory set to `.` and allow Vercel to detect FastAPI.
+3. Deploy without adding environment variables.
+
+The deployment packages the checked-in model, cohort, metrics, and frontend with the Python function. Retraining is not part of deployment; retrain locally and commit updated model artifacts if needed. Verify `/`, `/api/health`, and `/docs` after deployment. The application remains a research and education prototype; do not enter real patient data.
+
 ### Retrain the models
 
 Training runs stratified 5-fold evaluation and then fits the final model on the full cohort:
